@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.3
+**Date:** 2026-04-04
+**Description:** Fixed CI/CD deploy failure by explicitly setting rootDir to "src" in tsconfig.json. Without it, TypeScript inferred the wrong rootDir on a clean CI checkout and output compiled files to lib/src/index.js instead of lib/index.js.
+
 ## 1.0.2
 **Date:** 2026-04-04
 **Description:** Added HTTP integration tests with supertest covering all endpoints (users, tasks, health). Fixed CI/CD pipeline by merging build and deploy into a single job to prevent missing compiled output. Excluded Firestore repositories and factories from coverage thresholds as they require the Firebase emulator.
