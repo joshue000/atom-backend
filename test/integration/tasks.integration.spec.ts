@@ -21,7 +21,7 @@ describe('Tasks API', () => {
 
   describe('GET /api/tasks', () => {
     const makePaginatedResponse = (tasks: TaskResponseDto[]): PaginatedResponseDto<TaskResponseDto> => ({
-      metadata: { page: 1, numberOfPages: 1, limit: 10, offset: 0, total: tasks.length },
+      metadata: { page: 1, numberOfPages: 1, limit: 5, offset: 0, total: tasks.length },
       data: tasks,
     });
 
@@ -38,7 +38,7 @@ describe('Tasks API', () => {
       expect(res.body.data).toHaveLength(1);
       expect(res.body.data[0]).toMatchObject({ id: 'task-1', userId: 'user-1' });
       expect(res.body.metadata).toMatchObject({ page: 1, numberOfPages: 1, total: 1 });
-      expect(execute).toHaveBeenCalledWith({ userId: 'user-1', limit: 10, offset: 0 });
+      expect(execute).toHaveBeenCalledWith({ userId: 'user-1', limit: 5, offset: 0 });
     });
 
     it('should pass limit and offset to the use case', async () => {
