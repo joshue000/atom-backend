@@ -10,7 +10,7 @@ export function errorHandlerMiddleware(
   err: Error,
   _req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ): void {
   if (err instanceof ValidationError) {
     res.status(400).json({ error: err.message });

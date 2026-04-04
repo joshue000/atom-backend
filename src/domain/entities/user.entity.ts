@@ -23,9 +23,15 @@ export class User {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-  get id(): string { return this.props.id; }
-  get email(): string { return this.props.email; }
-  get createdAt(): Date { return this.props.createdAt; }
+  get id(): string {
+    return this.props.id;
+  }
+  get email(): string {
+    return this.props.email;
+  }
+  get createdAt(): Date {
+    return this.props.createdAt;
+  }
 
   toPlainObject(): UserProps {
     return { ...this.props };

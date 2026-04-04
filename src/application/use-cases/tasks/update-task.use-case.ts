@@ -10,10 +10,7 @@ export class UpdateTaskUseCase {
     if (!task) throw new TaskNotFoundError(id);
 
     if (dto.title !== undefined || dto.description !== undefined) {
-      task = task.updateDetails(
-        dto.title ?? task.title,
-        dto.description ?? task.description
-      );
+      task = task.updateDetails(dto.title ?? task.title, dto.description ?? task.description);
     }
 
     if (dto.completed !== undefined) {

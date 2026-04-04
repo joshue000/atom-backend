@@ -1,6 +1,12 @@
 import { IUserRepository } from '@domain/repositories/user.repository.interface';
 import { User } from '@domain/entities/user.entity';
 import { getFirestore } from '../firebase/firestore.client';
+import { Timestamp } from 'firebase-admin/firestore';
+
+interface UserDocument {
+  email: string;
+  createdAt: Timestamp;
+}
 
 export class FirestoreUserRepository implements IUserRepository {
   private readonly collection = 'users';
@@ -16,11 +22,11 @@ export class FirestoreUserRepository implements IUserRepository {
     if (snapshot.empty) return null;
 
     const doc = snapshot.docs[0];
-    const data = doc.data();
+    const data = doc.data() as UserDocument;
     return User.reconstitute({
       id: doc.id,
-      email: data['email'],
-      createdAt: data['createdAt'].toDate(),
+      email: data.email,
+      createdAt: data.createdAt.toDate(),
     });
   }
 
@@ -29,11 +35,11 @@ export class FirestoreUserRepository implements IUserRepository {
     const doc = await db.collection(this.collection).doc(id).get();
     if (!doc.exists) return null;
 
-    const data = doc.data()!;
+    const data = doc.data() as UserDocument;
     return User.reconstitute({
       id: doc.id,
-      email: data['email'],
-      createdAt: data['createdAt'].toDate(),
+      email: data.email,
+      createdAt: data.createdAt.toDate(),
     });
   }
 

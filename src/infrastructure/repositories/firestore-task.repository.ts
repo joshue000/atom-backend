@@ -1,27 +1,34 @@
 import { ITaskRepository } from '@domain/repositories/task.repository.interface';
 import { Task } from '@domain/entities/task.entity';
 import { getFirestore } from '../firebase/firestore.client';
+import { Timestamp } from 'firebase-admin/firestore';
+
+interface TaskDocument {
+  userId: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
 
 export class FirestoreTaskRepository implements ITaskRepository {
   private readonly collection = 'tasks';
 
   async findByUserId(userId: string): Promise<Task[]> {
     const db = getFirestore();
-    const snapshot = await db
-      .collection(this.collection)
-      .where('userId', '==', userId)
-      .get();
+    const snapshot = await db.collection(this.collection).where('userId', '==', userId).get();
 
     return snapshot.docs.map((doc) => {
-      const data = doc.data();
+      const data = doc.data() as TaskDocument;
       return Task.reconstitute({
         id: doc.id,
-        userId: data['userId'],
-        title: data['title'],
-        description: data['description'],
-        completed: data['completed'],
-        createdAt: data['createdAt'].toDate(),
-        updatedAt: data['updatedAt'].toDate(),
+        userId: data.userId,
+        title: data.title,
+        description: data.description,
+        completed: data.completed,
+        createdAt: data.createdAt.toDate(),
+        updatedAt: data.updatedAt.toDate(),
       });
     });
   }
@@ -31,15 +38,15 @@ export class FirestoreTaskRepository implements ITaskRepository {
     const doc = await db.collection(this.collection).doc(id).get();
     if (!doc.exists) return null;
 
-    const data = doc.data()!;
+    const data = doc.data() as TaskDocument;
     return Task.reconstitute({
       id: doc.id,
-      userId: data['userId'],
-      title: data['title'],
-      description: data['description'],
-      completed: data['completed'],
-      createdAt: data['createdAt'].toDate(),
-      updatedAt: data['updatedAt'].toDate(),
+      userId: data.userId,
+      title: data.title,
+      description: data.description,
+      completed: data.completed,
+      createdAt: data.createdAt.toDate(),
+      updatedAt: data.updatedAt.toDate(),
     });
   }
 

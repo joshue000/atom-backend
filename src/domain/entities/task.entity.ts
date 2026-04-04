@@ -11,9 +11,7 @@ export interface TaskProps {
 export class Task {
   private constructor(private readonly props: TaskProps) {}
 
-  static create(
-    props: Omit<TaskProps, 'createdAt' | 'updatedAt'>
-  ): Task {
+  static create(props: Omit<TaskProps, 'createdAt' | 'updatedAt'>): Task {
     return new Task({
       ...props,
       createdAt: new Date(),
@@ -25,13 +23,27 @@ export class Task {
     return new Task(props);
   }
 
-  get id(): string { return this.props.id; }
-  get userId(): string { return this.props.userId; }
-  get title(): string { return this.props.title; }
-  get description(): string { return this.props.description; }
-  get completed(): boolean { return this.props.completed; }
-  get createdAt(): Date { return this.props.createdAt; }
-  get updatedAt(): Date { return this.props.updatedAt; }
+  get id(): string {
+    return this.props.id;
+  }
+  get userId(): string {
+    return this.props.userId;
+  }
+  get title(): string {
+    return this.props.title;
+  }
+  get description(): string {
+    return this.props.description;
+  }
+  get completed(): boolean {
+    return this.props.completed;
+  }
+  get createdAt(): Date {
+    return this.props.createdAt;
+  }
+  get updatedAt(): Date {
+    return this.props.updatedAt;
+  }
 
   complete(): Task {
     return new Task({ ...this.props, completed: true, updatedAt: new Date() });

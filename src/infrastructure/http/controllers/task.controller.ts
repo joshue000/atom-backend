@@ -7,11 +7,7 @@ import {
 } from '../../factories/use-case.factory';
 import { CreateTaskDto, UpdateTaskDto } from '@application/dtos/task.dto';
 
-export async function getTasks(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
+export async function getTasks(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const userId = req.query['userId'] as string;
     if (!userId) {
@@ -25,11 +21,7 @@ export async function getTasks(
   }
 }
 
-export async function createTask(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
+export async function createTask(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const dto = req.body as CreateTaskDto;
     const task = await makeCreateTaskUseCase().execute(dto);
@@ -39,11 +31,7 @@ export async function createTask(
   }
 }
 
-export async function updateTask(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
+export async function updateTask(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const { id } = req.params;
     const dto = req.body as UpdateTaskDto;
@@ -54,11 +42,7 @@ export async function updateTask(
   }
 }
 
-export async function deleteTask(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> {
+export async function deleteTask(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const { id } = req.params;
     await makeDeleteTaskUseCase().execute(id);

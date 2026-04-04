@@ -7,5 +7,5 @@ export const api = onRequest(
     memory: '256MiB',
     timeoutSeconds: 60,
   },
-  app
+  app,
 );
