@@ -6,6 +6,7 @@ import {
   makeDeleteTaskUseCase,
 } from '../../factories/use-case.factory';
 import { CreateTaskDto, UpdateTaskDto } from '@application/dtos/task.dto';
+import { PAGINATION_DEFAULTS } from '@application/constants/pagination.constants';
 
 export async function getTasks(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -14,8 +15,17 @@ export async function getTasks(req: Request, res: Response, next: NextFunction):
       res.status(400).json({ error: 'userId query parameter is required' });
       return;
     }
-    const tasks = await makeGetTasksUseCase().execute(userId);
-    res.status(200).json(tasks);
+
+    const rawLimit = parseInt(req.query['limit'] as string, 10);
+    const rawOffset = parseInt(req.query['offset'] as string, 10);
+    const limit =
+      isNaN(rawLimit) || rawLimit <= 0
+        ? PAGINATION_DEFAULTS.LIMIT
+        : Math.min(rawLimit, PAGINATION_DEFAULTS.MAX_LIMIT);
+    const offset = isNaN(rawOffset) || rawOffset < 0 ? PAGINATION_DEFAULTS.OFFSET : rawOffset;
+
+    const result = await makeGetTasksUseCase().execute({ userId, limit, offset });
+    res.status(200).json(result);
   } catch (err) {
     next(err);
   }

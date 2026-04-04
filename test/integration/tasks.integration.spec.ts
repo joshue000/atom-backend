@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../../src/infrastructure/app';
 import * as useCaseFactory from '../../src/infrastructure/factories/use-case.factory';
-import { TaskResponseDto } from '../../src/application/dtos/task.dto';
+import { PaginatedResponseDto, TaskResponseDto } from '../../src/application/dtos/task.dto';
 import { TaskNotFoundError } from '../../src/domain/errors/domain.errors';
 
 jest.mock('../../src/infrastructure/factories/use-case.factory');
@@ -20,26 +20,47 @@ describe('Tasks API', () => {
   afterEach(() => jest.clearAllMocks());
 
   describe('GET /api/tasks', () => {
-    it('should return 200 with tasks array', async () => {
-      const execute = jest.fn().mockResolvedValue([mockTask]);
-      jest.spyOn(useCaseFactory, 'makeGetTasksUseCase').mockReturnValue({ execute } as never);
-
-      const res = await request(app).get('/api/tasks').query({ userId: 'user-1' });
-
-      expect(res.status).toBe(200);
-      expect(res.body).toHaveLength(1);
-      expect(res.body[0]).toMatchObject({ id: 'task-1', userId: 'user-1' });
-      expect(execute).toHaveBeenCalledWith('user-1');
+    const makePaginatedResponse = (tasks: TaskResponseDto[]): PaginatedResponseDto<TaskResponseDto> => ({
+      metadata: { page: 1, numberOfPages: 1, limit: 10, offset: 0, total: tasks.length },
+      data: tasks,
     });
 
-    it('should return 200 with empty array when no tasks', async () => {
-      const execute = jest.fn().mockResolvedValue([]);
+    it('should return 200 with paginated response', async () => {
+      const paginatedResponse = makePaginatedResponse([mockTask]);
+      const execute = jest.fn().mockResolvedValue(paginatedResponse);
       jest.spyOn(useCaseFactory, 'makeGetTasksUseCase').mockReturnValue({ execute } as never);
 
       const res = await request(app).get('/api/tasks').query({ userId: 'user-1' });
 
       expect(res.status).toBe(200);
-      expect(res.body).toEqual([]);
+      expect(res.body).toHaveProperty('metadata');
+      expect(res.body).toHaveProperty('data');
+      expect(res.body.data).toHaveLength(1);
+      expect(res.body.data[0]).toMatchObject({ id: 'task-1', userId: 'user-1' });
+      expect(res.body.metadata).toMatchObject({ page: 1, numberOfPages: 1, total: 1 });
+      expect(execute).toHaveBeenCalledWith({ userId: 'user-1', limit: 10, offset: 0 });
+    });
+
+    it('should pass limit and offset to the use case', async () => {
+      const paginatedResponse = makePaginatedResponse([]);
+      const execute = jest.fn().mockResolvedValue(paginatedResponse);
+      jest.spyOn(useCaseFactory, 'makeGetTasksUseCase').mockReturnValue({ execute } as never);
+
+      await request(app).get('/api/tasks').query({ userId: 'user-1', limit: '5', offset: '10' });
+
+      expect(execute).toHaveBeenCalledWith({ userId: 'user-1', limit: 5, offset: 10 });
+    });
+
+    it('should return 200 with empty data when no tasks', async () => {
+      const paginatedResponse = makePaginatedResponse([]);
+      const execute = jest.fn().mockResolvedValue(paginatedResponse);
+      jest.spyOn(useCaseFactory, 'makeGetTasksUseCase').mockReturnValue({ execute } as never);
+
+      const res = await request(app).get('/api/tasks').query({ userId: 'user-1' });
+
+      expect(res.status).toBe(200);
+      expect(res.body.data).toEqual([]);
+      expect(res.body.metadata.total).toBe(0);
     });
 
     it('should return 400 when userId is missing', async () => {

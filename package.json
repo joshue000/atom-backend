@@ -1,6 +1,6 @@
 {
   "name": "atom-functions",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "ATOM Task Manager — Firebase Cloud Functions API",
   "scripts": {
     "build": "tsc && tsc-alias",

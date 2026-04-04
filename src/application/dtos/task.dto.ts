@@ -1,3 +1,21 @@
+export interface PaginationQueryDto {
+  limit: number;
+  offset: number;
+}
+
+export interface PaginationMetadataDto {
+  page: number;
+  numberOfPages: number;
+  limit: number;
+  offset: number;
+  total: number;
+}
+
+export interface PaginatedResponseDto<T> {
+  metadata: PaginationMetadataDto;
+  data: T[];
+}
+
 export interface CreateTaskDto {
   userId: string;
   title: string;

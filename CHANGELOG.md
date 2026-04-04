@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.4
+**Date:** 2026-04-04
+**Description:** Added pagination to GET /api/tasks. Accepts limit and offset query parameters with defaults defined in pagination.constants.ts (limit: 10, max: 100). Response shape changed to { metadata: { page, numberOfPages, limit, offset, total }, data: Task[] }. Updated unit and integration tests accordingly.
+
 ## 1.0.3
 **Date:** 2026-04-04
 **Description:** Fixed CI/CD deploy failure by explicitly setting rootDir to "src" in tsconfig.json. Without it, TypeScript inferred the wrong rootDir on a clean CI checkout and output compiled files to lib/src/index.js instead of lib/index.js.
