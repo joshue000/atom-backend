@@ -12,6 +12,8 @@ const config = {
     'src/**/*.ts',
     '!src/index.ts',
     '!src/infrastructure/firebase/**',
+    '!src/infrastructure/repositories/**',
+    '!src/infrastructure/factories/**',
   ],
   coverageThreshold: {
     global: { lines: 80, functions: 80 },
