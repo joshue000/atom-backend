@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.5
+**Date:** 2026-04-05
+**Description:** Added Docker support for local development. New Dockerfile runs the Express app via ts-node-dev (hot reload) using a new src/server.ts entrypoint that calls app.listen() instead of Firebase's onRequest(). Added ts-node-dev, ts-node, and tsconfig-paths as dev dependencies. Added dev script to package.json. firebase-app.ts now reads GOOGLE_CLOUD_PROJECT env var so Admin SDK initialises correctly against the Firestore emulator without a service account.
+
 ## 1.0.4
 **Date:** 2026-04-04
 **Description:** Added pagination to GET /api/tasks. Accepts limit and offset query parameters with defaults defined in pagination.constants.ts (limit: 10, max: 100). Response shape changed to { metadata: { page, numberOfPages, limit, offset, total }, data: Task[] }. Updated unit and integration tests accordingly.
