@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.7
+**Date:** 2026-04-05
+**Description:** Added README.md documenting architecture decisions (Clean/Hexagonal layers, immutable entities, factory pattern, in-memory pagination), project structure, API reference, local development options (Docker and manual), Firebase setup, environment variables, testing strategy, and CI/CD pipeline.
+
 ## 1.0.6
 **Date:** 2026-04-05
 **Description:** Added Swagger documentation. swagger-jsdoc generates the OpenAPI 3.0 spec from JSDoc comments on route files. swagger-ui-express serves the interactive UI at /api/docs. All endpoints documented with request params, request bodies, and response schemas. Docs are only available outside production (NODE_ENV !== production).
