@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.6
+**Date:** 2026-04-05
+**Description:** Added Swagger documentation. swagger-jsdoc generates the OpenAPI 3.0 spec from JSDoc comments on route files. swagger-ui-express serves the interactive UI at /api/docs. All endpoints documented with request params, request bodies, and response schemas. Docs are only available outside production (NODE_ENV !== production).
+
 ## 1.0.5
 **Date:** 2026-04-05
 **Description:** Added Docker support for local development. New Dockerfile runs the Express app via ts-node-dev (hot reload) using a new src/server.ts entrypoint that calls app.listen() instead of Firebase's onRequest(). Added ts-node-dev, ts-node, and tsconfig-paths as dev dependencies. Added dev script to package.json. firebase-app.ts now reads GOOGLE_CLOUD_PROJECT env var so Admin SDK initialises correctly against the Firestore emulator without a service account.

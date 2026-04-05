@@ -1,6 +1,6 @@
 {
   "name": "atom-functions",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "ATOM Task Manager — Firebase Cloud Functions API",
   "scripts": {
     "build": "tsc && tsc-alias",
@@ -24,11 +24,15 @@
     "express": "^4.18.2",
     "firebase-admin": "^12.0.0",
     "firebase-functions": "^5.0.0",
-    "helmet": "^7.1.0"
+    "helmet": "^7.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.5",
     "@types/supertest": "^7.2.0",
