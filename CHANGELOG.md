@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.9
+**Date:** 2026-04-07
+**Description:** Fixed CORS blocking requests from the production Firebase Hosting URL. ALLOWED_ORIGINS env var was not set in the Firebase Functions runtime, causing the default (localhost:4200 only) to reject requests from https://atom-task-manager-2026.web.app. Updated the default to include both localhost and the production URL. The env var override remains functional for other environments.
+
 ## 1.0.8
 **Date:** 2026-04-07
 **Description:** Fixed 500 error on user creation in production. Two bugs: (1) firebase-app.ts was passing { projectId } to initializeApp() whenever GOOGLE_CLOUD_PROJECT was set, which is always true in the Firebase Functions runtime — this bypassed automatic credential setup and caused Firestore permission failures. Fixed by only passing { projectId } when FIRESTORE_EMULATOR_HOST is also present (Docker local dev). (2) User.create() threw a plain Error for invalid email format, which the error handler could not map to a 400 — it fell through to the 500 catch-all. Fixed by throwing ValidationError instead.
