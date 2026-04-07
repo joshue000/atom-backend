@@ -1,8 +1,7 @@
 import cors from 'cors';
 
 const allowedOrigins = (
-  process.env['ALLOWED_ORIGINS'] ??
-  'http://localhost:4200,https://atom-task-manager-2026.web.app'
+  process.env['ALLOWED_ORIGINS'] ?? 'http://localhost:4200,https://atom-task-manager-2026.web.app'
 )
   .split(',')
   .map((o) => o.trim());
