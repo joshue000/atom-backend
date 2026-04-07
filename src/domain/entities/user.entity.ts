@@ -1,3 +1,5 @@
+import { ValidationError } from '@domain/errors/domain.errors';
+
 export interface UserProps {
   id: string;
   email: string;
@@ -10,7 +12,7 @@ export class User {
   static create(email: string, id: string): User {
     const normalizedEmail = email.toLowerCase().trim();
     if (!User.isValidEmail(normalizedEmail)) {
-      throw new Error(`Invalid email format: ${email}`);
+      throw new ValidationError(`Invalid email format: ${email}`);
     }
     return new User({ id, email: normalizedEmail, createdAt: new Date() });
   }

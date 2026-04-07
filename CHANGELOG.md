@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.8
+**Date:** 2026-04-07
+**Description:** Fixed 500 error on user creation in production. Two bugs: (1) firebase-app.ts was passing { projectId } to initializeApp() whenever GOOGLE_CLOUD_PROJECT was set, which is always true in the Firebase Functions runtime — this bypassed automatic credential setup and caused Firestore permission failures. Fixed by only passing { projectId } when FIRESTORE_EMULATOR_HOST is also present (Docker local dev). (2) User.create() threw a plain Error for invalid email format, which the error handler could not map to a 400 — it fell through to the 500 catch-all. Fixed by throwing ValidationError instead.
+
 ## 1.0.7
 **Date:** 2026-04-05
 **Description:** Added README.md documenting architecture decisions (Clean/Hexagonal layers, immutable entities, factory pattern, in-memory pagination), project structure, API reference, local development options (Docker and manual), Firebase setup, environment variables, testing strategy, and CI/CD pipeline.
