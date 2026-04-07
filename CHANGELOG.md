@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.10
+**Date:** 2026-04-07
+**Description:** Fixed CORS persisting in production despite source code fix. A previous manual deploy had baked ALLOWED_ORIGINS=http://localhost:4200 into the Cloud Run service config, which Firebase merges rather than replaces on subsequent deploys. Added .env.atom-task-manager-2026 (project-specific env file, safe to commit) with both localhost and the production hosting URL. Firebase CLI picks this up automatically during deploy and overwrites the stale value.
+
 ## 1.0.9
 **Date:** 2026-04-07
 **Description:** Fixed CORS blocking requests from the production Firebase Hosting URL. ALLOWED_ORIGINS env var was not set in the Firebase Functions runtime, causing the default (localhost:4200 only) to reject requests from https://atom-task-manager-2026.web.app. Updated the default to include both localhost and the production URL. The env var override remains functional for other environments.
